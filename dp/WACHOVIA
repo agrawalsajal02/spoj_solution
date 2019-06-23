@@ -1,0 +1,70 @@
+/*/-----
+
+
+    Written By:- Sajal Agrawal
+          (Have Patience)
+
+/*/
+#include<bits/stdc++.h>
+using namespace std;
+#pragma GCC target ("avx2")
+#pragma GCC optimization ("O3")
+#pragma GCC optimization ("unroll-loops")
+#define ll long long int
+#define f(i,a,b) for(ll i=a;i<b;i++)
+#define mod 1000000007
+#define fi first
+#define se second
+#define pa pair <ll,ll>
+#define mp make_pair
+#define c(t) cout<<t<<"\n"
+#define pb push_back
+#define endl '\n'
+ll dp[1010][100];
+ll solve_dp(vector<pair<ll,ll> > v,ll weight,ll bags,ll i){
+
+if(i==bags){
+  return 0; 
+}
+if(dp[weight][i]!=-1){
+  return dp[weight][i];
+}
+ll ans=INT_MIN;
+pair<ll,ll> p=v[i];
+if(weight-p.first>=0){
+ans=max(ans,p.second+solve_dp(v,weight-p.first,bags,i+1));}
+ans=max(ans,solve_dp(v,weight,bags,i+1));
+
+
+
+return dp[weight][i]=ans;
+}
+
+
+int main(){
+      ll t;
+    cin>>t;
+    while(t--){
+ll wei,bags;
+cin>>wei>>bags;
+for(ll x=0;x<=wei;x++){
+ for(ll w=0;w<=bags;w++){
+     dp[x][w]=-1;   
+    }   
+}
+vector< pair <ll,ll> >v;
+for(ll x=0;x<bags;x++){
+ ll a,b;cin>>a>>b;
+v.push_back({a,b});
+}
+cout<<"Hey stupid robber, you can get "<<solve_dp(v,wei,bags,0)<<"."<<endl;
+
+
+
+
+    }
+
+
+
+}
+
