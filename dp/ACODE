@@ -1,0 +1,93 @@
+//https://www.spoj.com/problems/ACODE/
+/*/-----
+
+
+    Written By:- Sajal Agrawal
+          (Have Patience)
+
+/*/
+#include<bits/stdc++.h>
+using namespace std;
+#define ll long long int
+#define f(i,a,b) for(ll i=a;i<b;i++)
+#define mod 1000000007
+#define fi first
+#define se second
+#define pa pair <ll,ll>
+#define mp make_pair
+#define c(t) cout<<t<<"\n"
+#define pb push_back
+#define endl '\n'
+
+bool check(char a,char b){
+string s="";
+s=s+a;
+s=s+b;
+ll val;
+stringstream geek(s);
+geek>>val;
+if(val>=10&&val<=26){
+  return true;
+}
+return false;
+}
+
+ll flag=0;
+
+ll dp[100000];
+ll find(string s,ll n,ll i){
+if(i==n)return 1;
+
+if(dp[i]!=-1){
+  return dp[i];
+}
+if(i==n-1&&s[i]!='0'){
+  return 1;
+}
+if(s[i]=='0'){
+  return 0;
+}
+ll sum=0;
+
+if(i+1<=n-1){
+if(s[i+1]=='0'){
+  if(check(s[i],s[i+1])){
+  sum=sum+find(s,n,i+2);}
+   else{
+return 0;
+   }
+  
+}
+else{
+ sum=sum+find(s,n,i+1);
+ if(check(s[i],s[i+1])){
+    sum=sum+find(s,n,i+2);
+  }
+}
+}
+return dp[i]=sum;
+}
+int main(){
+string s;
+while(cin>>s){https://github.com/agrawalsajal02/spoj_solution
+if(s=="0")break;
+ll len=s.length();
+for(ll x=0;x<=len;x++){
+    dp[x]=-1;
+}
+flag=0;
+if(s[0]=='0'){
+  flag=1;
+}
+ll val=find(s,len,0);
+if(flag==0){
+cout<<val<<endl;
+}
+else{
+  cout<<"0"<<endl;
+}
+
+}
+
+}
+
