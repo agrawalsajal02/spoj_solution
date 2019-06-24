@@ -1,0 +1,107 @@
+/*/-----
+
+
+    Written By:- Sajal Agrawal
+          (Have Patience)
+
+/*/
+#include<bits/stdc++.h>
+using namespace std;
+#pragma GCC target ("avx2")
+#pragma GCC optimization ("O3")
+#pragma GCC optimization ("unroll-loops")
+#define ll long long int
+#define f(i,a,b) for(ll i=a;i<b;i++)
+#define mod 1000000007
+#define fi first
+#define se second
+#define pa pair <ll,ll>
+#define mp make_pair
+#define c(t) cout<<t<<"\n"
+#define pb push_back
+#define endl '\n'
+ll dp[1010][1010];
+ll find(ll a[],ll n,ll i,ll side){
+if(i==n){
+    return 0;
+}
+
+
+if(dp[i][n]!=-1){
+    return dp[i][n];
+}
+
+if(side==1){
+ll val= max(a[i]+find(a,n,i+1,2),a[n-1]+find(a,n-1,i,2));
+return dp[i][n]=val;
+}
+
+
+if(side==2){
+    ll val;
+if(a[i]>=a[n-1]){
+     val=-a[i]+find(a,n,i+1,1);
+}
+else{
+ val=-a[n-1]+find(a,n-1,i,1);   
+}
+return dp[i][n]=val;
+}
+}
+
+
+
+
+int main(){
+ll n;ll i=0;
+while(cin>>n){
+
+if(n==0)break;
+ll a[n];
+for(ll w=0;w<n;w++){
+ cin>>a[w];   
+}
+
+for(ll w=0;w<=n+1;w++){
+ for(ll q=0;q<=n+1;q++){
+    dp[w][q]=-1;   
+   }  
+}
+cout<<"In game "<<i+1<<", the greedy strategy might lose by as many as "<<find(a,n,0,1)<<" points."<<endl;
+
+
+i++;
+
+
+
+
+}
+
+}
+
+/*
+other solution
+int TWENDS(int start,int end)
+{   
+   /*Recursion + memoization*/
+   if(start>end)   
+      return 0;
+   if(dp[start][end]!=-1)   
+      return dp[start][end];
+   else
+   {
+      /*Here we take care of the 
+      turns of player two, by ignoring
+      the larger element of the two ends*/
+      return dp[start][end]=
+      max(
+         val[start+1]>=val[end]?TWENDS(start+2,end)+val[start]:
+                           TWENDS(start+1,end-1)+val[start],
+         val[start]>=val[end-1]?TWENDS(start+1,end-1)+val[end]:
+                           TWENDS(start,end-2)+val[end]
+         );//end of max()
+   }      
+}
+
+
+*/
