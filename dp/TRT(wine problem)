@@ -1,0 +1,57 @@
+/*/-----
+
+
+    Written By:- Sajal Agrawal
+          (Have Patience)
+
+/*/
+#include<bits/stdc++.h>
+using namespace std;
+#pragma GCC target ("avx2")
+#pragma GCC optimization ("O3")
+#pragma GCC optimization ("unroll-loops")
+#define ll long long int
+#define f(i,a,b) for(ll i=a;i<b;i++)
+#define mod 1000000007
+#define fi first
+#define se second
+#define pa pair <ll,ll>
+#define mp make_pair
+#define c(t) cout<<t<<"\n"
+#define pb push_back
+#define endl '\n'
+ll dp[3000][3000];
+ll find(ll a[],ll i,ll n,ll year){
+if(i==n){
+    return 0;
+}
+if(dp[i][year]!=-1){
+    return dp[i][year];
+}
+ll ans=0;
+ll v1=a[i]*year+find(a,i+1,n,year+1);
+ll v2=a[n-1]*year+find(a,i,n-1,year+1);
+ans=max(v1,v2);
+///cout<<" asn "<<ans<<" "<<endl<<endl;
+
+return dp[i][year]=ans;
+
+}
+int main(){
+ll n;
+cin>>n;ll a[n];
+for(ll w=0;w<n;w++){
+    cin>>a[w];
+}
+for(ll x=0;x<=n;x++){
+ for(ll w=0;w<=n;w++){
+     dp[x][w]=-1;   
+    }   
+}
+
+ll year=1;ll i=0;
+cout<<find(a,i,n,year)<<endl;
+
+
+}
+
