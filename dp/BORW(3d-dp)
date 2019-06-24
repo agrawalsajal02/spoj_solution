@@ -1,0 +1,108 @@
+    /*/-----
+
+
+        Written By:- Sajal Agrawal
+              (Have Patience)
+
+    /*/
+    #include<bits/stdc++.h>
+    using namespace std;
+    #pragma GCC target ("avx2")
+    #pragma GCC optimization ("O3")
+    #pragma GCC optimization ("unroll-loops")
+    #define ll long long int
+    #define f(i,a,b) for(ll i=a;i<b;i++)
+    #define mod 1000000007
+    #define fi first
+    #define se second
+    #define pa pair <ll,ll>
+    #define mp make_pair
+    #define c(t) cout<<t<<"\n"
+    #define pb push_back
+    #define endl '\n'
+    //map<pair<ll,pair<ll,ll> > ,ll   >m;
+    ll dp[210][210][210];
+    ll find(ll a[],ll n,ll i,ll fsmall,ll slar){
+    if(i==n){
+        return 0;
+    }
+
+
+
+
+    if(dp[i][fsmall][slar]!=-1){
+        return dp[i][fsmall][slar];
+    }
+
+    ll ans=INT_MAX;
+    if(fsmall==0&&slar==0){
+    ans= (min(find(a,n,i+1,i+1,slar),
+        min(find(a,n,i+1,fsmall,i+1),
+        1+find(a,n,i+1,fsmall,slar))));
+    }
+    if(fsmall!=0&&slar==0){
+     
+     ans=min(ans,find(a,n,i+1,fsmall,i+1));
+     ans=min(ans,1+find(a,n,i+1,fsmall,slar));
+     if(a[i]>a[fsmall-1]){
+    ans=min(ans,find(a,n,i+1,i+1,slar));
+     }
+
+    }
+
+    if(fsmall==0&&slar!=0){
+     
+     ans=min(ans,find(a,n,i+1,i+1,slar));
+     ans=min(ans,1+find(a,n,i+1,fsmall,slar));
+     if(a[i]<a[slar-1]){
+    ans=min(ans,find(a,n,i+1,fsmall,i+1));
+     }
+
+    }
+
+    if(fsmall!=0&&slar!=0){
+    if(a[i]>a[fsmall-1]){
+      ans=min(ans,find(a,n,i+1,i+1,slar));
+    }
+    if(a[i]<a[slar-1]){
+    ans=min(ans,find(a,n,i+1,fsmall,i+1));
+
+    }
+     ans=min(ans,1+find(a,n,i+1,fsmall,slar));
+
+    }
+    dp[i][fsmall][slar]=ans;
+
+    return ans;
+
+    }
+    int main(){
+
+            ios_base::sync_with_stdio(false);
+            cin.tie(NULL);
+            
+
+    while(1){
+    ll n;
+    cin>>n;
+    if(n==-1){
+        return 0;
+    }
+    ll a[n];
+    for(ll w=0;w<n;w++){
+        cin>>a[w];
+    }
+
+
+    for(ll w=0;w<=n;w++){
+     for(ll x=0;x<=n;x++){
+         for(ll q=0;q<=n;q++){
+                dp[w][x][q]=-1;
+            }   
+        }   
+    }
+    cout<<find(a,n,0,0,0)<<endl;
+    //m.clear();
+    }
+
+    }
