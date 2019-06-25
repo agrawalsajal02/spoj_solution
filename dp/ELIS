@@ -1,0 +1,67 @@
+//godd concept , when dp indeces become , just push that incesa in one +1 order
+//lcs problem
+//https://www.spoj.com/problems/ELIS/
+/*/-----
+
+
+    Written By:- Sajal Agrawal
+          (Have Patience)
+
+/*/
+#include<bits/stdc++.h>
+using namespace std;
+#pragma GCC target ("avx2")
+#pragma GCC optimization ("O3")
+#pragma GCC optimization ("unroll-loops")
+#define ll long long int
+#define f(i,a,b) for(ll i=a;i<b;i++)
+#define mod 1000000007
+#define fi first
+#define se second
+#define pa pair <ll,ll>
+#define mp make_pair
+#define c(t) cout<<t<<"\n"
+#define pb push_back
+#define endl '\n'
+ll dp[20][20];
+ll find(ll a[],ll n,ll i,ll p){
+
+if(i==n){
+  return 0;
+}
+if(dp[i][p+1]!=-1){
+  return dp[i][p+1];
+}
+
+ll ans=INT_MIN;
+if(p!=-1){
+  if(a[i]>a[p]){
+    ans=max(ans,1+find(a,n,i+1,i));
+  }
+}
+
+if(p==-1){ans=max(ans,1+find(a,n,i+1,i));}
+
+ans=max(ans,find(a,n,i+1,p));
+return dp[i][p+1]=ans;
+
+}
+int main(){
+ll n;
+cin>>n;ll a[n];
+f(i,0,n){
+cin>>a[i];
+}
+ll i=0,p=0;
+for(ll w=0;w<=n;w++){
+ for(ll x=0;x<=n;x++){
+        dp[w][x]=-1;
+    }   
+}
+cout<<find(a,n,i,-1);
+
+}
+
+
+
+
