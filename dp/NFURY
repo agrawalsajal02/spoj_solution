@@ -1,0 +1,92 @@
+    //https://www.spoj.com/problems/NFURY/
+    //dp[n] represent mini step needed to go to n with square in its path
+    //very good question
+    //uses precmputed dps for the first time in my life
+    //for example if n=100 the for n=50, it tells ans in constant time
+    /*/-----
+
+
+        Written By:- Sajal Agrawal
+              (Have Patience)
+
+    /*/
+    #include<bits/stdc++.h>
+    using namespace std;
+    #pragma GCC target ("avx2")
+    #pragma GCC optimization ("O3")
+    #pragma GCC optimization ("unroll-loops")
+    #define ll long long int
+    #define f(i,a,b) for(ll i=a;i<b;i++)
+    #define mod 1000000007
+    #define fi first
+    #define se second
+    #define pa pair <ll,ll>
+    #define mp make_pair
+    #define c(t) cout<<t<<"\n"
+    #define pb push_back
+    #define endl '\n'
+    ll dp[1010];
+    ll cnt=0;
+    ll find(ll a[],ll n,ll i){
+    cnt++;
+    if(n==0){
+        return 0;
+    }
+    if(n<0){
+        return INT_MAX;
+    }
+    if(i>=n){
+        return INT_MAX;
+    }
+    if(dp[n]!=-1){
+    //  cout<<" precom "<<n<<endl;
+        return dp[n];
+    }
+        ll ans=INT_MAX;
+       ans=min(1+find(a,n-a[i],i+1),min(find(a,n,i+1),1+find(a,n-a[i],i)));
+        //cout<<" ans "<<ans<<" fora[i] "<<i<<" "<<n<<endl;
+            return dp[n]=ans;
+    }
+    ll fastexp(ll a,ll n){
+        if(n==0){
+            return 1;
+        }
+        ll r=fastexp(a,n/2);
+        if(n%2==0){
+            return (r*r);
+        }
+        else{
+            return (r*a*r);
+        }
+    }
+    int main(){
+
+        ios_base::sync_with_stdio(false);
+        cin.tie(NULL);
+        
+        ll t;
+        cin>>t;
+        
+    ll n=1010;
+    ll a[n+1];
+    for(ll x=1;x<=n;x++){
+        a[x-1]=fastexp(x,2);
+    }
+
+    for(ll x=0;x<=n;x++){
+            dp[x]=-1;
+           
+    }
+
+        while(t--){
+    cin>>n;
+    cnt=0;
+    ll i=0;
+    cout<<find(a,n,i)<<endl;
+    //cout<<" cnt"<<cnt<<endl;
+
+        }
+
+
+    }
+
