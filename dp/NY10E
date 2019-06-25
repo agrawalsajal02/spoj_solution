@@ -1,0 +1,80 @@
+//https://www.spoj.com/problems/NY10E/
+//dp[a][b] represent total number form when we reach at ath position and the  a-1 digit is b
+/*/-----
+
+
+    Written By:- Sajal Agrawal
+          (Have Patience)
+
+/*/
+#include<bits/stdc++.h>
+using namespace std;
+#pragma GCC target ("avx2")
+#pragma GCC optimization ("O3")
+#pragma GCC optimization ("unroll-loops")
+#define ll long long int
+#define f(i,a,b) for(ll i=a;i<b;i++)
+#define mod 1000000007
+#define fi first
+#define se second
+#define pa pair <ll,ll>
+#define mp make_pair
+#define c(t) cout<<t<<"\n"
+#define pb push_back
+#define endl '\n'
+ll dp[100][10];
+ll cnt=0;
+ll find(ll n,ll i,string s){
+cnt++;
+if(s.length()==n){
+   //cout<<" "<<n<<" --> "<<s<<endl;
+    return 1;
+}
+if(i>n){
+    return 0;
+}
+if(i!=0){
+    if(dp[i][s[i-1]-'0']!=-1)
+    return dp[i][s[i-1]-'0'];
+}
+if(i==0){
+ll sum=0;
+    for(ll j=0;j<=9;j++){
+        string rr=s+to_string(j);
+      sum=sum+find(n,i+1,rr);
+    }
+ dp[i][0]=sum;
+return sum;
+}
+else{
+char p=s[i-1];  ll pp=p-'0';
+ll sum=0;
+for(ll x=pp;x<=9;x++){
+    string rr=s+to_string(x);
+      sum=sum+find(n,i+1,rr);
+}
+ll va=s[i-1]-'0';
+dp[i][va]=sum;
+return sum;
+}
+
+}
+int main(){
+
+ll t;
+cin>>t;
+for(ll i=1;i<=t;i++){
+ll q,n;cin>>q>>n;
+
+string s="";
+for(ll x=0;x<=n+1;x++){
+    for(ll w=0;w<=9;w++){
+    dp[x][w]=-1;   
+    }
+}
+cout<<q<<" "<<find(n,0,s)<<endl;
+
+}
+
+}
+
