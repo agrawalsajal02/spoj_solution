@@ -1,0 +1,115 @@
+//https://hack.codingblocks.com/contests/c/128/813
+/*/-----
+
+
+    Written By:- Sajal Agrawal
+          (Have Patience)
+
+/*/
+#include<bits/stdc++.h>
+using namespace std;
+#pragma GCC target ("avx2")
+#pragma GCC optimization ("O3")
+#pragma GCC optimization ("unroll-loops")
+#define ll long long int
+#define f(i,a,b) for(ll i=a;i<b;i++)
+#define mod 1000000007
+#define fi first
+#define se second
+#define pa pair <ll,ll>
+#define mp make_pair
+#define c(t) cout<<t<<"\n"
+#define pb push_back
+#define endl '\n'
+struct mat{
+    ll a1,a2,b1,b2;
+};
+void build(mat *a,ll st,ll ed,mat *tree,ll index,ll r){
+if(st==ed){
+  tree[index].a1=a[st].a1;
+  tree[index].a2=a[st].a2;
+  tree[index].b1=a[st].b1;
+  tree[index].b2=a[st].b2;
+  return;
+}
+ll mid=(st+ed)/2;
+build(a,st,mid,tree,2*index+1,r);
+build(a,mid+1,ed,tree,2*index+2,r);
+ll x=2*index+1,y=2*index+2;
+//tree[index]=min(tree[2*index+1],tree[2*index+2]);
+tree[index].a1=((tree[x].a1*tree[y].a1)%r+(tree[x].a2*tree[y].b1)%r)%r;
+tree[index].a2=((tree[x].a1*tree[y].a2)%r+(tree[x].a2*tree[y].b2)%r)%r;
+tree[index].b1=((tree[x].b1*tree[y].a1)%r+(tree[x].b2*tree[y].b1)%r)%r;
+tree[index].b2=((tree[x].b1*tree[y].a2)%r+(tree[x].b2*tree[y].b2)%r)%r;
+
+return ;
+
+}
+mat query(mat *tree,ll st,ll se,ll qs,ll qe,ll index,ll r){
+
+//if complete overlap return
+  if(qs<=st&&qe>=se){
+    return tree[index]; 
+  }
+  //for no overlap
+  if(se<qs||qe<st){
+    mat q;
+    q.a1=1;q.a2=0;q.b1=0;q.b2=1;
+    return q;
+  }
+
+ll mid=(st+se)/2;
+mat p1=query(tree,st,mid,qs,qe,2*index+1,r);
+mat p2=query(tree,mid+1,se,qs,qe,2*index+2,r);
+mat ans;
+ans.a1=((p1.a1*p2.a1)%r+(p1.a2*p2.b1)%r)%r;
+ans.a2=((p1.a1*p2.a2)%r+(p1.a2*p2.b2)%r)%r;
+ans.b1=((p1.b1*p2.a1)%r+(p1.b2*p2.b1)%r)%r;
+ans.b2=((p1.b1*p2.a2)%r+(p1.b2*p2.b2)%r)%r;
+
+
+return ans;
+
+
+
+}
+
+
+int main(){
+
+ll r,n,q;
+cin>>r>>n>>q;
+mat *a=new mat[n];
+f(i,0,n){
+  cin>>a[i].a1;
+  cin>>a[i].a2;
+  cin>>a[i].b1;
+  cin>>a[i].b2;
+}
+
+mat *tree=new mat[4*n+1];
+//step1
+build(a,0,n-1,tree,0,r);
+
+while(q--){
+ll x,y;cin>>x>>y;
+x--;y--;
+mat ans=query(tree,0,n-1,x,y,0,r);
+cout<<ans.a1<<" "<<ans.a2<<endl;
+cout<<ans.b1<<" "<<ans.b2<<endl;
+cout<<endl;
+
+}
+
+
+
+/*
+
+cout<<endl;
+
+//step2
+ll l,r;cin>>l>>r;
+cout<<query(tree,0,n-1,l,r,0)<<endl;
+
+*/
+}
